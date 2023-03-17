@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  api: 
+    build: 
+      dockerfile: Dockerfile
+    image: 'node:19-alpine'
+    working_dir: /app
+    ports:
+      - '3001:3000'
+    volumes:
+      - .:/home/node
+    stdin_open: true
+    tty: true
+
+  db:
+    image: 'postgres:13-alpine'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_DB: 'nest_db'
+      TZ: 'Europe/Paris'
+    volumes:
+      - 'rest-data:/var/lib/postgresql/data:rw'
+
+volumes:
+  rest-data: {}

@@ -1,0 +1,4 @@
+package*.json
+readme.md
+node_modules
+npm-debug.log
