@@ -1,29 +1,30 @@
 version: '3.7'
 
 services:
-  api: 
-    build: 
-      dockerfile: Dockerfile
-    image: 'node:19-alpine'
-    working_dir: /app
+  api:
+    container_name: poke-api
+    image: node:18-alpine
+    user: node
+    working_dir: /home/node
+    env_file: .env
     ports:
-      - '3001:3000'
+      - 5000:5000
+      - 5001:5000
     volumes:
       - .:/home/node
-    stdin_open: true
-    tty: true
+    command: /bin/sh -c "npm i && npm run start:dev"
 
   db:
-    image: 'postgres:13-alpine'
+    container_name: poke-db
+    image: postgres:13-alpine
     ports:
-      - '5432:5432'
+      - 5432:5432
     environment:
-      POSTGRES_USER: 'root'
-      POSTGRES_PASSWORD: 'password'
-      POSTGRES_DB: 'nest_db'
-      TZ: 'Europe/Paris'
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: poke_db
     volumes:
-      - 'rest-data:/var/lib/postgresql/data:rw'
+      - poke-db-data:/var/lib/postgresql/data:rw
 
 volumes:
-  rest-data: {}
+  poke-db-data: {}
