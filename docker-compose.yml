@@ -8,11 +8,12 @@ services:
     working_dir: /home/node
     env_file: .env
     ports:
-      - 5000:5000
+      - 9000:5000
       - 5001:5000
     volumes:
       - .:/home/node
     command: /bin/sh -c "npm i && npm run start:dev"
+
 
   db:
     container_name: poke-db
