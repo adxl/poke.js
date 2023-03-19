@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, ManyToMany, JoinTable, PrimaryGeneratedColumn } from 'typeorm';
+import { Dish } from './dish.entity';
+  
 @Entity()
 export class Topping {
   @PrimaryGeneratedColumn()
@@ -13,4 +14,8 @@ export class Topping {
 
   @Column()
   img: string;
+
+  @ManyToMany(() => Dish)
+  @JoinTable()
+  dishes: Dish[]
 }

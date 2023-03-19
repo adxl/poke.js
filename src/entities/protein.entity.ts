@@ -1,5 +1,6 @@
-import { Entity, Column, OneToMany,PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable, PrimaryGeneratedColumn } from 'typeorm';
 import { Dish } from './dish.entity';
+
 
 @Entity()
 export class Protein {
@@ -15,6 +16,7 @@ export class Protein {
   @Column()
   img: string;
 
-  @OneToMany(() => Dish, (dish) => dish.proteins)
+  @ManyToMany(() => Dish)
+  @JoinTable()
   dishes: Dish[]
 }
