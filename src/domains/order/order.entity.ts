@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, ManyToMany, ManyToOne } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  ManyToOne,
+  JoinTable,
+} from "typeorm";
 import { Dish } from "../dish/dish.entity";
 import { User } from "../user/user.entity";
 
@@ -7,9 +13,10 @@ export class Order {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ManyToOne(() => User, { eager: true })
+  @ManyToOne(() => User)
   user: User;
 
   @ManyToMany(() => Dish)
+  @JoinTable()
   dishes: Dish[];
 }
