@@ -13,4 +13,3 @@ export const TypeOrmConfig: TypeOrmModuleOptions = {
   entities: [Base, Dish, Order, Protein, Size, Topping, User],
   synchronize: process.env.STAGE === "local",
 };
-
