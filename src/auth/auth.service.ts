@@ -15,23 +15,25 @@ import { RegisterDto } from "./dto/register.dto";
 @Injectable()
 export class AuthService {
   @InjectRepository(User)
-  private readonly repo: Repository<User>;
+  private readonly repository: Repository<User>;
 
   @Inject(AuthHelper)
   private readonly helper: AuthHelper;
 
   public async register(body: RegisterDto): Promise<User | never> {
-    const exists: User = await this.repo.findOneBy({ email: body.email });
+    const exists: User = await this.repository.findOneBy({ email: body.email });
 
     if (exists) {
       throw new HttpException("User already exists", HttpStatus.CONFLICT);
     }
 
-    return this.repo.save(body);
+    body.password = this.helper.hashPwd(body.password);
+
+    return this.repository.save(body);
   }
 
   public async login(body: LoginDto): Promise<string | never> {
-    const exists: User = await this.repo.findOneBy({ email: body.email });
+    const exists: User = await this.repository.findOneBy({ email: body.email });
 
     if (!exists) {
       throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
