@@ -1,9 +1,12 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import InitSwagger from "./config/swagger.config";
 
-async function init() {
+async function initApp() {
   const app = await NestFactory.create(AppModule);
+  InitSwagger(app);
+
   await app.listen(5000);
 }
 
-init();
+initApp();

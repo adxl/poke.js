@@ -1,9 +1,7 @@
-name: PokéJS CI 
+name: PokeJS CI
 
 on:
   push:
-    branches:
-      - master
 
 jobs:
   build:
