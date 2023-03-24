@@ -20,7 +20,7 @@ export class AuthService {
   @Inject(AuthHelper)
   private readonly helper: AuthHelper;
 
-  public async register(body: RegisterDto): Promise<User | never> {
+  public async register(body: RegisterDto): Promise<User | HttpException> {
     const exists: User = await this.repository.findOneBy({ email: body.email });
 
     if (exists) {
@@ -32,7 +32,7 @@ export class AuthService {
     return this.repository.save(body);
   }
 
-  public async login(body: LoginDto): Promise<string | never> {
+  public async login(body: LoginDto): Promise<string | HttpException> {
     const exists: User = await this.repository.findOneBy({ email: body.email });
 
     if (!exists) {

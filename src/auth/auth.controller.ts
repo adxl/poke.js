@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from "@nestjs/common";
+import { Body, Controller, HttpException, Inject, Post } from "@nestjs/common";
 import { User } from "src/domains/user/user.entity";
 import { AuthService } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
@@ -10,12 +10,12 @@ export class AuthController {
   private readonly authService: AuthService;
 
   @Post("register")
-  public register(@Body() body: RegisterDto): Promise<User | never> {
+  public register(@Body() body: RegisterDto): Promise<User | HttpException> {
     return this.authService.register(body);
   }
 
   @Post("login")
-  public login(@Body() body: LoginDto): Promise<string | never> {
+  public login(@Body() body: LoginDto): Promise<string | HttpException> {
     return this.authService.login(body);
   }
 }

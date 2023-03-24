@@ -19,7 +19,7 @@ export class AuthHelper {
   }
 
   // Decode a JWT token
-  public decodeToken(token: string): any {
+  public decodeToken(token: string): JwtObject {
     return this.jwt.verify(token);
   }
 
@@ -42,7 +42,7 @@ export class AuthHelper {
 
   // Verify if JWT token is valid
   private async verifyToken(token: string): Promise<boolean> {
-    const verified: any = this.jwt.verify(token);
+    const verified: JwtObject = this.jwt.verify(token);
 
     if (!verified) {
       throw new HttpException("Invalid token", HttpStatus.UNAUTHORIZED);
@@ -56,4 +56,10 @@ export class AuthHelper {
 
     return true;
   }
+}
+
+interface JwtObject {
+  id: string;
+  email: string;
+  iat: number;
 }
