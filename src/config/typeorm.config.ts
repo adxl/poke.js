@@ -1,11 +1,11 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { Base } from "src/domains/base/base.entity";
-import { Dish } from "src/domains/dish/dish.entity";
-import { Order } from "src/domains/order/order.entity";
-import { Protein } from "src/domains/protein/protein.entity";
-import { Size } from "src/domains/size/size.entity";
-import { Topping } from "src/domains/topping/topping.entity";
-import { User } from "src/domains/user/user.entity";
+import { Base } from "src/domains/bases/bases.entity";
+import { Dish } from "src/domains/dishes/dishes.entity";
+import { Order } from "src/domains/orders/orders.entity";
+import { Protein } from "src/domains/proteins/proteins.entity";
+import { Size } from "src/domains/sizes/sizes.entity";
+import { Topping } from "src/domains/toppings/toppings.entity";
+import { User } from "src/domains/users/users.entity";
 
 export const TypeOrmConfig: TypeOrmModuleOptions = {
   type: "postgres",

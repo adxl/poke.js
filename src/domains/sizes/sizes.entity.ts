@@ -1,17 +1,13 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Base {
+export class Size {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column({ length: 25 })
-  name: string;
+  label: string;
 
   @Column()
-  price: number;
-
-  @Column()
-  image: string;
+  value: number;
 }
-

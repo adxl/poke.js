@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Topping {
+export class Protein {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -14,4 +14,3 @@ export class Topping {
   @Column()
   image: string;
 }
-

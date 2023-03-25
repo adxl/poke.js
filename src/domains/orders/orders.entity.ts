@@ -5,8 +5,8 @@ import {
   ManyToOne,
   JoinTable,
 } from "typeorm";
-import { Dish } from "../dish/dish.entity";
-import { User } from "../user/user.entity";
+import { Dish } from "../dishes/dishes.entity";
+import { User } from "../users/users.entity";
 
 @Entity()
 export class Order {

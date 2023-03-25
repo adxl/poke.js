@@ -5,10 +5,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
 } from "typeorm";
-import { Size } from "../size/size.entity";
-import { Protein } from "../protein/protein.entity";
-import { Topping } from "../topping/topping.entity";
-import { Base } from "../base/base.entity";
+import { Size } from "../sizes/sizes.entity";
+import { Protein } from "../proteins/proteins.entity";
+import { Topping } from "../toppings/toppings.entity";
+import { Base } from "../bases/bases.entity";
 
 @Entity()
 export class Dish {

@@ -1,14 +1,16 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Size {
+export class Topping {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column({ length: 25 })
-  label: string;
+  name: string;
 
   @Column()
-  value: number;
-}
+  price: number;
 
+  @Column()
+  image: string;
+}
