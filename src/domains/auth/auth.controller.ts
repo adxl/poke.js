@@ -1,5 +1,5 @@
 import { Body, Controller, HttpException, Inject, Post } from "@nestjs/common";
-import { User } from "src/domains/user/user.entity";
+import { User } from "../users/users.entity";
 import { AuthService } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";

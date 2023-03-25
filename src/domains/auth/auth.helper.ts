@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "src/domains/user/user.entity";
+import { User } from "../users/users.entity";
 import { Repository } from "typeorm";
 import * as bcrypt from "bcryptjs";
 
@@ -9,7 +9,7 @@ import * as bcrypt from "bcryptjs";
 @Injectable()
 export class AuthHelper {
   @InjectRepository(User)
-  private readonly repo: Repository<User>;
+  private readonly userRepository: Repository<User>;
 
   constructor(private readonly jwt: JwtService) {}
 
@@ -21,11 +21,6 @@ export class AuthHelper {
   // Decode a JWT token
   public decodeToken(token: string): JwtObject {
     return this.jwt.verify(token);
-  }
-
-  // Get a user by id
-  public async getUserById(id: string): Promise<User> {
-    return await this.repo.findOneBy({ id });
   }
 
   // Validate a user's password
@@ -40,7 +35,6 @@ export class AuthHelper {
     return bcrypt.hashSync(pwd, salt);
   }
 
-  // Verify if JWT token is valid
   private async verifyToken(token: string): Promise<boolean> {
     const verified: JwtObject = this.jwt.verify(token);
 
@@ -48,7 +42,9 @@ export class AuthHelper {
       throw new HttpException("Invalid token", HttpStatus.UNAUTHORIZED);
     }
 
-    const user: User = await this.getUserById(verified.id);
+    const user: User | null = await this.userRepository.findOneBy({
+      id: verified.id,
+    });
 
     if (!user) {
       throw new HttpException("Invalid token", HttpStatus.UNAUTHORIZED);
