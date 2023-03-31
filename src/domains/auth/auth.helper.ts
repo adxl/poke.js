@@ -4,6 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../users/users.entity";
 import { Repository } from "typeorm";
 import * as bcrypt from "bcryptjs";
+import { JwtObject } from "./jwt-object.interface";
 
 // Helper class for authentication
 @Injectable()
@@ -52,10 +53,4 @@ export class AuthHelper {
 
     return true;
   }
-}
-
-interface JwtObject {
-  id: string;
-  email: string;
-  iat: number;
 }
