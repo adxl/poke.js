@@ -6,7 +6,6 @@ import { User } from "./users.entity";
 import { AuthHelper } from "../auth/auth.helper";
 import { JwtStrategy } from "../auth/auth.strategy";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { PassportModule } from "@nestjs/passport";
 import { JwtModule } from "@nestjs/jwt";
 
 @Module({

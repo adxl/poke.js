@@ -10,6 +10,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Request } from "express";
 import { Repository } from "typeorm";
 import { AuthHelper } from "../auth/auth.helper";
+import { ChangePasswordDto } from "./dto/update-password.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserDto } from "./dto/user.dto";
 import { User } from "./users.entity";
 
@@ -48,10 +50,9 @@ export class UsersService {
   }
 
   public async updatePassword(
-    oldPwd: string,
-    newPwd: string
+    body: ChangePasswordDto
   ): Promise<object | HttpException> {
-    if (!oldPwd || !newPwd)
+    if (!body.oldPwd || !body.newPwd)
       throw new HttpException(
         "You must provide all the informations",
         HttpStatus.BAD_REQUEST
@@ -69,14 +70,58 @@ export class UsersService {
       id: reqUser.id,
     });
 
-    if (!user || !this.helper.validPwd(user, oldPwd)) {
+    if (!user || !this.helper.validPwd(user, body.oldPwd)) {
       throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
     }
 
-    user.password = this.helper.hashPwd(newPwd);
+    user.password = this.helper.hashPwd(body.newPwd);
 
     this.userRepository.save(user);
 
     return { message: "Password changed succesfully !" };
+  }
+
+  public async updateProfile(
+    body: UpdateUserDto
+  ): Promise<User | HttpException> {
+    if (!body.firstName && !body.lastName)
+      throw new HttpException(
+        "You must provide all the informations",
+        HttpStatus.BAD_REQUEST
+      );
+
+    const reqUser: UserDto = <UserDto>this.request.user;
+
+    const user: User | null = await this.userRepository.findOneBy({
+      id: reqUser.id,
+    });
+
+    if (!user)
+      throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
+
+    if (body.firstName && body.firstName?.length > 0) {
+      user.firstName = body.firstName;
+    }
+
+    if (body.lastName && body.lastName?.length > 0) {
+      user.lastName = body.lastName;
+    }
+
+    this.userRepository.save(user);
+
+    return user;
+  }
+
+  public async updateRole(id: string): Promise<User | HttpException> {
+    const user: User | null = await this.userRepository.findOneBy({ id });
+
+    if (!user)
+      throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
+
+    user.isAdmin = !user.isAdmin;
+
+    this.userRepository.save(user);
+
+    return user;
   }
 }
