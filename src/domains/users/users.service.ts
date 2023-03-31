@@ -78,12 +78,12 @@ export class UsersService {
 
     this.userRepository.save(user);
 
-    return { message: "Password changed succesfully !" };
+    return { message: "User updated succesfully" };
   }
 
   public async updateProfile(
     body: UpdateUserDto
-  ): Promise<User | HttpException> {
+  ): Promise<object | HttpException> {
     if (!body.firstName && !body.lastName)
       throw new HttpException(
         "You must provide all the informations",
@@ -109,19 +109,26 @@ export class UsersService {
 
     this.userRepository.save(user);
 
-    return user;
+    return { message: "User updated succesfully" };
   }
 
-  public async updateRole(id: string): Promise<User | HttpException> {
+  public async updateRole(
+    id: string,
+    role: string
+  ): Promise<object | HttpException> {
     const user: User | null = await this.userRepository.findOneBy({ id });
 
     if (!user)
       throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
 
-    user.isAdmin = !user.isAdmin;
+    if (role === "ADMIN") {
+      user.isAdmin = true;
+    } else {
+      user.isAdmin = false;
+    }
 
     this.userRepository.save(user);
 
-    return user;
+    return { message: "User updated succesfully" };
   }
 }

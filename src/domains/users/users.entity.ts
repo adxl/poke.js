@@ -5,6 +5,7 @@ import { Order } from "../orders/orders.entity";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
+  @Exclude()
   id: string;
 
   @Column()

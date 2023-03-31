@@ -7,13 +7,13 @@ import {
   Inject,
   Param,
   Patch,
-  Post,
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
 import { RoleAdminGuard } from "../auth/admin.guard";
 import { JwTAuthGuard } from "../auth/auth.guard";
 import { ChangePasswordDto } from "./dto/update-password.dto";
+import { UpdateUserRoleDto } from "./dto/update-role.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "./users.entity";
 import { UsersService } from "./users.service";
@@ -37,7 +37,7 @@ export class UsersController {
     return this.userService.getOneUser(id);
   }
 
-  @Post("/update/pwd")
+  @Patch("/password")
   @UseGuards(JwTAuthGuard)
   public updatePassword(
     @Body() body: ChangePasswordDto
@@ -45,19 +45,22 @@ export class UsersController {
     return this.userService.updatePassword(body);
   }
 
-  @Patch("/update/role/:id")
+  @Patch("/:id/role")
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   @UseInterceptors(ClassSerializerInterceptor)
-  public updateRole(@Param("id") id: string): Promise<User | HttpException> {
-    return this.userService.updateRole(id);
+  public updateRole(
+    @Param("id") id: string,
+    @Body() body: UpdateUserRoleDto
+  ): Promise<object | HttpException> {
+    return this.userService.updateRole(id, body.role);
   }
 
-  @Patch("/update")
+  @Patch("/:id")
   @UseGuards(JwTAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   public updateProfile(
     @Body() body: UpdateUserDto
-  ): Promise<User | HttpException> {
+  ): Promise<object | HttpException> {
     return this.userService.updateProfile(body);
   }
 }
