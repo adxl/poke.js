@@ -13,7 +13,7 @@ export class Order {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { onDelete: "CASCADE" })
   user: User;
 
   @ManyToMany(() => Dish)

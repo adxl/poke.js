@@ -2,6 +2,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   HttpException,
   Inject,
@@ -47,7 +48,6 @@ export class UsersController {
 
   @Patch("/:id/role")
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
   public updateRole(
     @Param("id") id: string,
     @Body() body: UpdateUserRoleDto
@@ -57,10 +57,15 @@ export class UsersController {
 
   @Patch("/:id")
   @UseGuards(JwTAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
   public updateProfile(
     @Body() body: UpdateUserDto
   ): Promise<object | HttpException> {
     return this.userService.updateProfile(body);
+  }
+
+  @Delete("/:id")
+  @UseGuards(JwTAuthGuard, RoleAdminGuard)
+  public deleteUser(@Param("id") id: string): Promise<object | HttpException> {
+    return this.userService.deleteUser(id);
   }
 }

@@ -131,4 +131,21 @@ export class UsersService {
 
     return { message: "User updated succesfully" };
   }
+
+  public async deleteUser(id: string): Promise<object | HttpException> {
+    if (!id)
+      throw new HttpException(
+        "You must provide all the informations",
+        HttpStatus.BAD_REQUEST
+      );
+
+    const user: User | null = await this.userRepository.findOneBy({ id });
+
+    if (!user)
+      throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
+
+    this.userRepository.delete(user);
+
+    return { message: "User deleted succesfully" };
+  }
 }
