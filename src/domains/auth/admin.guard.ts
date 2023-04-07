@@ -8,8 +8,6 @@ export class RoleAdminGuard implements CanActivate {
     const request: Request = context.switchToHttp().getRequest();
     const reqUser: UserDto = <UserDto>request.user;
 
-    if (!reqUser.isAdmin) return false;
-
-    return true;
+    return reqUser.isAdmin;
   }
 }

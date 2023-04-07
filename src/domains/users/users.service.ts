@@ -28,7 +28,7 @@ export class UsersService {
   public async getAllUsers(): Promise<User[] | HttpException> {
     const users = await this.userRepository.find();
 
-    if (!users || users.length === 0) {
+    if (!users) {
       throw new HttpException("No users found", HttpStatus.NOT_FOUND);
     }
 
@@ -121,11 +121,7 @@ export class UsersService {
     if (!user)
       throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
 
-    if (role === "ADMIN") {
-      user.isAdmin = true;
-    } else {
-      user.isAdmin = false;
-    }
+    user.isAdmin = role === "ADMIN";
 
     this.userRepository.save(user);
 
