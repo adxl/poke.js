@@ -14,7 +14,4 @@ export class Base {
   @Column()
   price: number;
 
-  @ApiProperty({ example: 'null', description: 'image of the Base' })
-  @Column()
-  image: string;
 }
