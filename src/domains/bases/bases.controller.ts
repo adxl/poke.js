@@ -14,8 +14,11 @@ import { BasesService } from "./bases.service";
 import { RoleAdminGuard } from "../auth/admin.guard";
 import { JwTAuthGuard } from "../auth/auth.guard";
 import { Base } from "src/domains/bases/bases.entity";
+import { ApiBearerAuth } from "@nestjs/swagger";
+import { createBaseDto } from "./bases.dto";
 
 @Controller("/bases")
+@ApiBearerAuth()
 export class BasesController {
   constructor(private readonly basesService: BasesService) {}
 
@@ -35,13 +38,13 @@ export class BasesController {
   @Post()
   @HttpCode(201)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  create(@Body() base: Base): Promise<Base> {
-    return this.basesService.create(base);
+  public create(@Body() body: createBaseDto): Promise<Base> {
+    return this.basesService.create(body);
   }
 
   @Put(":id")
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  update(@Param("id") id: string, @Body() base: Base): Promise<void> {
+  update(@Param("id") id: string, @Body() base: createBaseDto): Promise<void> {
     return this.basesService.update(id, base);
   }
 

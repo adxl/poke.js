@@ -1,7 +1,9 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Base } from "./bases.entity";
 import { InjectRepository } from "@nestjs/typeorm";
+import { createBaseDto } from "./bases.dto";
+import { log } from "console";
 
 @Injectable()
 export class BasesService {
@@ -18,7 +20,7 @@ export class BasesService {
     try {
       const base = await this.baseRepository.findOneOrFail({
         where: { id: id },
-      }); // SELECT * FROM Base WHERE user = id
+      }); // SELECT * FROM Base WHERE base = id
       return base;
     } catch (err) {
       // handle error
@@ -26,11 +28,11 @@ export class BasesService {
     }
   }
 
-  create(base: Base): Promise<Base> {
-    return this.baseRepository.save(base);
+  async create(baseDto: createBaseDto): Promise<Base> {
+    return await this.baseRepository.save(baseDto);
   }
 
-  async update(id: string, base: Base): Promise<void> {
+  async update(id: string, base: createBaseDto): Promise<void> {
     await this.baseRepository.update(id, base);
   }
 

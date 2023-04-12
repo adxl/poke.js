@@ -11,7 +11,7 @@ export class Base {
   name: string;
 
   @ApiProperty({ example: '2.50', description: 'Price of the Base' })
-  @Column()
+  @Column("float")
   price: number;
 
 }
