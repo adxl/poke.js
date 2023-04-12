@@ -1,11 +1,13 @@
 // size.service.ts
 import {
   Injectable,
+  HttpException,
+  HttpStatus,
   NotFoundException,
   BadRequestException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository, FindOneOptions, QueryFailedError } from "typeorm";
+import { Repository, QueryFailedError } from "typeorm";
 import { Size } from "./size.entity";
 import { UpdateSizeDto, InsertSizeDto } from "./size.dto";
 
@@ -24,13 +26,18 @@ export class SizeService {
     return this.sizeRepository.find();
   }
 
-  findOne(id: string): Promise<Size | null> {
-    const options: FindOneOptions<Size> = {
-      where: {
-        id: id,
-      },
-    };
-    return this.sizeRepository.findOne(options);
+  async getOneById(id: string): Promise<Size> {
+    if (!id) {
+      throw new HttpException("You must provide an id", HttpStatus.BAD_REQUEST);
+    }
+
+    const size: Size | null = await this.sizeRepository.findOneBy({ id });
+
+    if (!size) {
+      throw new HttpException("Could not find base", HttpStatus.NOT_FOUND);
+    }
+
+    return size;
   }
 
   async update(id: string, size: UpdateSizeDto): Promise<void> {
