@@ -6,11 +6,11 @@ export class Base {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ApiProperty({ example: 'rise', description: 'Name of the Base' })
+  @ApiProperty({ example: 'rice', description: 'Name of the Base' })
   @Column({ length: 25 })
   name: string;
 
-  @ApiProperty({ example: '2.50', description: 'Price of the Base' })
+  @ApiProperty({ example: 2.50, description: 'Price of the Base' })
   @Column("float")
   price: number;
 
