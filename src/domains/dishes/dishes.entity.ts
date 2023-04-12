@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
 } from "typeorm";
-import { Size } from "../sizes/sizes.entity";
+import { Size } from "../sizes/size.entity";
 import { Protein } from "../proteins/proteins.entity";
 import { Topping } from "../toppings/toppings.entity";
 import { Base } from "../bases/bases.entity";
