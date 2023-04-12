@@ -40,7 +40,7 @@ export class SizeController {
   @Get(":id")
   @HttpCode(200)
   findOne(@Param("id") id: string): Promise<Size | null> {
-    return this.sizeService.findOne(id);
+    return this.sizeService.getOneById(id);
   }
 
   @Patch(":id")
