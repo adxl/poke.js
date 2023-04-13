@@ -11,8 +11,9 @@ import { DishesService } from "./dishes.service";
 import { RoleAdminGuard } from "../auth/admin.guard";
 import { JwTAuthGuard } from "../auth/auth.guard";
 import { Dish } from "./dishes.entity";
-import { ApiBearerAuth } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
+@ApiTags("Dishes")
 @Controller("/dishes")
 @ApiBearerAuth()
 export class DishesController {

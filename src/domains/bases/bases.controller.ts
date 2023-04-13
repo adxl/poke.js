@@ -14,9 +14,10 @@ import { BasesService } from "./bases.service";
 import { RoleAdminGuard } from "../auth/admin.guard";
 import { JwTAuthGuard } from "../auth/auth.guard";
 import { Base } from "src/domains/bases/bases.entity";
-import { ApiBearerAuth } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { createBaseDto, updateBaseDto } from "./bases.dto";
 
+@ApiTags("Bases")
 @Controller("/bases")
 @ApiBearerAuth()
 export class BasesController {
