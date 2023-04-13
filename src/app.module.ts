@@ -5,6 +5,7 @@ import { AuthModule } from "./domains/auth/auth.module";
 import { UsersModule } from "./domains/users/users.module";
 import { BasesModule } from "./domains/bases/bases.module";
 import { SizeModule } from "./domains/sizes/sizes.module";
+import { DishesModule } from "./domains/dishes/dishes.module";
 import { ToppingsModule } from "./domains/toppings/toppings.module";
 
 @Module({
@@ -15,6 +16,7 @@ import { ToppingsModule } from "./domains/toppings/toppings.module";
     BasesModule,
     SizeModule,
     ToppingsModule,
+    DishesModule
   ],
 })
 export class AppModule {}

@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Base } from "./bases.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { createBaseDto } from "./bases.dto";
+import { createBaseDto, updateBaseDto } from "./bases.dto";
 
 @Injectable()
 export class BasesService {
@@ -33,7 +33,7 @@ export class BasesService {
     return await this.baseRepository.save(baseDto);
   }
 
-  async update(id: string, base: createBaseDto): Promise<void> {
+  async update(id: string, base: updateBaseDto): Promise<void> {
     await this.baseRepository.update(id, base);
   }
 
