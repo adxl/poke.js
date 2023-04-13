@@ -1,13 +1,7 @@
 // size.service.ts
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  NotFoundException,
-  BadRequestException,
-} from "@nestjs/common";
+import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository, QueryFailedError } from "typeorm";
+import { Repository } from "typeorm";
 import { Size } from "./sizes.entity";
 import { UpdateSizeDto, InsertSizeDto } from "./sizes.dto";
 
@@ -34,29 +28,15 @@ export class SizeService {
     const size: Size | null = await this.sizeRepository.findOneBy({ id });
 
     if (!size) {
-      throw new HttpException("Could not find base", HttpStatus.NOT_FOUND);
+      throw new HttpException("Could not find size", HttpStatus.NOT_FOUND);
     }
 
     return size;
   }
 
   async update(id: string, size: UpdateSizeDto): Promise<void> {
-    try {
-      const updateResult = await this.sizeRepository
-        .createQueryBuilder()
-        .update(Size)
-        .set(size)
-        .where("id = :id", { id })
-        .execute();
-      if (updateResult.affected === 0) {
-        throw new NotFoundException(`Size with id ${id} not found`);
-      }
-    } catch (error) {
-      if (error instanceof QueryFailedError) {
-        throw new BadRequestException("Update values are not defined");
-      }
-      throw error;
-    }
+    await this.getOneById(id);
+    await this.sizeRepository.update(id, size);
   }
 
   async remove(id: string): Promise<void> {
