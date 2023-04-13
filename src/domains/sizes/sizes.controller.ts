@@ -11,12 +11,12 @@ import {
   Header,
   UseGuards,
 } from "@nestjs/common";
-import { SizeService } from "./size.service";
-import { Size } from "./size.entity";
+import { SizeService } from "./sizes.service";
+import { Size } from "./sizes.entity";
 import { RoleAdminGuard } from "../auth/admin.guard";
 import { JwTAuthGuard } from "../auth/auth.guard";
 import { ApiBearerAuth } from "@nestjs/swagger";
-import { UpdateSizeDto, InsertSizeDto } from "./size.dto";
+import { UpdateSizeDto, InsertSizeDto } from "./sizes.dto";
 
 @ApiBearerAuth()
 @Controller("/sizes")

@@ -8,8 +8,8 @@ import {
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository, QueryFailedError } from "typeorm";
-import { Size } from "./size.entity";
-import { UpdateSizeDto, InsertSizeDto } from "./size.dto";
+import { Size } from "./sizes.entity";
+import { UpdateSizeDto, InsertSizeDto } from "./sizes.dto";
 
 @Injectable()
 export class SizeService {

@@ -6,7 +6,7 @@ import { TypeOrmConfig } from "./config/typeorm.config";
 import { AuthModule } from "./domains/auth/auth.module";
 import { UsersModule } from "./domains/users/users.module";
 import { BasesModule } from "./domains/bases/bases.module";
-import { SizeModule } from "./domains/sizes/size.module";
+import { SizeModule } from "./domains/sizes/sizes.module";
 
 @Module({
   imports: [
