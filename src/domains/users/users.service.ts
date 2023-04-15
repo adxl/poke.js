@@ -74,7 +74,7 @@ export class UsersService {
       throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
     }
 
-    user.password = this.helper.hashPwd(body.newPwd);
+    user.password = await this.helper.hashPwd(body.newPwd);
 
     this.userRepository.save(user);
 

@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../users/users.entity";
 import { Repository } from "typeorm";
@@ -14,17 +20,14 @@ export class AuthService {
   @Inject(AuthHelper)
   private readonly helper: AuthHelper;
 
-  public async register(body: RegisterDto): Promise<User | HttpException> {
-    const exists: User | null = await this.usersRepository.findOneBy({
+  public async register(body: RegisterDto): Promise<User> {
+    const user: User | null = await this.usersRepository.findOneBy({
       email: body.email,
     });
 
-    if (exists) {
-      throw new HttpException("User already exists", HttpStatus.CONFLICT);
-    }
+    if (user) throw new BadRequestException("Email already exists");
 
-    body.password = this.helper.hashPwd(body.password);
-
+    body.password = await this.helper.hashPwd(body.password);
     return this.usersRepository.save(body);
   }
 
