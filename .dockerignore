@@ -1,4 +1,9 @@
-package*.json
-readme.md
+*.md
 node_modules
+.npm
 npm-debug.log
+.git
+.github
+dist
+
+
