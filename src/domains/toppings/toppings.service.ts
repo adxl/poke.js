@@ -1,45 +1,42 @@
-import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
-import { Repository } from "typeorm";
+import { Injectable } from "@nestjs/common";
+import { DeleteResult, In, Repository, UpdateResult } from "typeorm";
 import { Topping } from "./toppings.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { createToppingDto, updateToppingDto } from "./toppings.dto";
+import { CreateToppingDto, UpdateToppingDto } from "./toppings.dto";
+import { NotFoundError } from "src/exceptions";
 
 @Injectable()
 export class ToppingsService {
   constructor(
     @InjectRepository(Topping)
-    private toppingRepository: Repository<Topping>
+    private readonly toppingsRepository: Repository<Topping>
   ) {}
 
-  getAll(): Promise<Topping[]> {
-    return this.toppingRepository.find();
+  findAll(): Promise<Topping[]> {
+    return this.toppingsRepository.find();
   }
 
-  async getOneById(id: string): Promise<Topping> {
-    if (!id) {
-      throw new HttpException("You must provide an id", HttpStatus.BAD_REQUEST);
-    }
+  findAllById(ids: string[]): Promise<Topping[]> {
+    return this.toppingsRepository.findBy({ id: In(ids) });
+  }
 
-    const topping: Topping | null = await this.toppingRepository.findOneBy({
-      id,
-    });
-
-    if (!topping) {
-      throw new HttpException("Could not find topping", HttpStatus.NOT_FOUND);
-    }
+  async findOne(id: string): Promise<Topping> {
+    const topping: Topping | null = await this.toppingsRepository.findOneBy({ id });
+    if (!topping) throw NotFoundError("topping", id);
 
     return topping;
   }
 
-  async create(toppingDto: createToppingDto): Promise<Topping> {
-    return await this.toppingRepository.save(toppingDto);
+  create(topping: CreateToppingDto): Promise<Topping> {
+    return this.toppingsRepository.save(topping);
   }
 
-  async update(id: string, topping: updateToppingDto): Promise<void> {
-    await this.toppingRepository.update(id, topping);
+  async update(id: string, topping: UpdateToppingDto): Promise<UpdateResult> {
+    await this.findOne(id);
+    return this.toppingsRepository.update(id, topping);
   }
 
-  async remove(id: string): Promise<void> {
-    await this.toppingRepository.delete(id);
+  remove(id: string): Promise<DeleteResult> {
+    return this.toppingsRepository.delete(id);
   }
 }

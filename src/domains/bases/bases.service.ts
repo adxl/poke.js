@@ -1,8 +1,9 @@
-import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Base } from "./bases.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { createBaseDto, updateBaseDto } from "./bases.dto";
+import { NotFoundError } from "src/exceptions";
 
 @Injectable()
 export class BasesService {
@@ -11,20 +12,13 @@ export class BasesService {
     private baseRepository: Repository<Base>
   ) {}
 
-  getAll(): Promise<Base[]> {
+  findAll(): Promise<Base[]> {
     return this.baseRepository.find();
   }
 
-  async getOneById(id: string): Promise<Base> {
-    if (!id) {
-      throw new HttpException("You must provide an id", HttpStatus.BAD_REQUEST);
-    }
-
+  async findOne(id: string): Promise<Base> {
     const base: Base | null = await this.baseRepository.findOneBy({ id });
-
-    if (!base) {
-      throw new HttpException("Could not find base", HttpStatus.NOT_FOUND);
-    }
+    if (!base) throw NotFoundError("base", id);
 
     return base;
   }

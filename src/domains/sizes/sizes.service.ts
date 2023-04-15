@@ -1,41 +1,34 @@
-// size.service.ts
-import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Size } from "./sizes.entity";
 import { UpdateSizeDto, InsertSizeDto } from "./sizes.dto";
+import { NotFoundError } from "src/exceptions";
 
 @Injectable()
-export class SizeService {
+export class SizesService {
   constructor(
     @InjectRepository(Size)
     private sizeRepository: Repository<Size>
   ) {}
 
-  async create(sizeDto: InsertSizeDto): Promise<Size> {
-    return await this.sizeRepository.save(sizeDto);
-  }
-
   findAll(): Promise<Size[]> {
     return this.sizeRepository.find();
   }
 
-  async getOneById(id: string): Promise<Size> {
-    if (!id) {
-      throw new HttpException("You must provide an id", HttpStatus.BAD_REQUEST);
-    }
-
+  async findOne(id: string): Promise<Size> {
     const size: Size | null = await this.sizeRepository.findOneBy({ id });
-
-    if (!size) {
-      throw new HttpException("Could not find size", HttpStatus.NOT_FOUND);
-    }
+    if (!size) throw NotFoundError("size", id);
 
     return size;
   }
 
+  async create(sizeDto: InsertSizeDto): Promise<Size> {
+    return await this.sizeRepository.save(sizeDto);
+  }
+
   async update(id: string, size: UpdateSizeDto): Promise<void> {
-    await this.getOneById(id);
+    await this.findOne(id);
     await this.sizeRepository.update(id, size);
   }
 

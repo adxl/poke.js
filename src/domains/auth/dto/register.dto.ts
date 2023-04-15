@@ -2,20 +2,19 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsAlpha, IsEmail, Length } from "class-validator";
 
 export class RegisterDto {
-  @ApiProperty({ type: String, example: "John", description: "firstName" })
+  @ApiProperty({ example: "John" })
   @IsAlpha()
   firstName: string;
-  @ApiProperty({ type: String, example: "Doe", description: "lastName" })
+
+  @ApiProperty({ example: "Doe" })
   @IsAlpha()
   lastName: string;
-  @ApiProperty({
-    type: String,
-    example: "johndoe@example.com",
-    description: "email",
-  })
+
+  @ApiProperty({ example: "johndoe@example.com" })
   @IsEmail()
   email: string;
-  @ApiProperty({ type: String, example: "Password#0", description: "password" })
+
+  @ApiProperty({ example: "password" })
   @Length(8, 64)
   password: string;
 }

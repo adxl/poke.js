@@ -26,32 +26,32 @@ export class BasesController {
   @Get()
   @HttpCode(200)
   @Header("poke-app", "Base")
-  getUsers(): Promise<Base[]> {
-    return this.basesService.getAll();
+  getAll(): Promise<Base[]> {
+    return this.basesService.findAll();
   }
 
   @Get(":id")
   @HttpCode(200)
-  findOne(@Param("id") id: string): Promise<Base> {
-    return this.basesService.getOneById(id);
+  getOne(@Param("id") id: string): Promise<Base> {
+    return this.basesService.findOne(id);
   }
 
   @Post()
   @HttpCode(201)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  public create(@Body() body: createBaseDto): Promise<Base> {
+  create(@Body() body: createBaseDto): Promise<Base> {
     return this.basesService.create(body);
   }
 
   @Patch(":id")
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  update(@Param("id") id: string, @Body() base: updateBaseDto): Promise<void> {
-    return this.basesService.update(id, base);
+  update(@Param("id") id: string, @Body() body: updateBaseDto): Promise<void> {
+    return this.basesService.update(id, body);
   }
 
   @Delete(":id")
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  remove(@Param("id") id: string): Promise<void> {
+  delete(@Param("id") id: string): Promise<void> {
     return this.basesService.remove(id);
   }
 }

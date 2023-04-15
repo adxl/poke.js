@@ -1,42 +1,42 @@
-import { IsArray, IsOptional, IsUUID } from "class-validator";
+import { IsOptional, IsUUID } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { Base } from "../bases/bases.entity";
-import { Size } from "../sizes/sizes.entity";
 
-export class createDishDto {
+export class CreateDishDto {
   @ApiProperty({ example: "" })
-  size: Size | string;
+  @IsUUID(4)
+  size: string;
 
   @ApiProperty({ example: "" })
-  base: Base | string;
+  @IsUUID(4)
+  base: string;
 
   @ApiProperty({ example: [] })
-  @IsArray()
+  @IsUUID(4, { each: true })
   proteins: string[];
 
   @ApiProperty({ example: [] })
-  @IsArray()
+  @IsUUID(4, { each: true })
   toppings: string[];
 }
 
-export class updateDishDto {
+export class UpdateDishDto {
   @ApiProperty({ example: "" })
   @IsOptional()
-  @IsUUID()
+  @IsUUID(4)
   size: string;
 
   @ApiProperty({ example: "" })
   @IsOptional()
-  @IsUUID()
+  @IsUUID(4)
   base: string;
 
   @ApiProperty({ example: [] })
+  @IsUUID(4, { each: true })
   @IsOptional()
-  @IsArray()
   proteins: string[];
 
   @ApiProperty({ example: [] })
+  @IsUUID(4, { each: true })
   @IsOptional()
-  @IsArray()
   toppings: string[];
 }

@@ -1,4 +1,3 @@
-// size.controller.ts
 import {
   Controller,
   Get,
@@ -11,17 +10,18 @@ import {
   Header,
   UseGuards,
 } from "@nestjs/common";
-import { SizeService } from "./sizes.service";
+import { SizesService } from "./sizes.service";
 import { Size } from "./sizes.entity";
 import { RoleAdminGuard } from "../auth/admin.guard";
 import { JwTAuthGuard } from "../auth/auth.guard";
-import { ApiBearerAuth } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { UpdateSizeDto, InsertSizeDto } from "./sizes.dto";
 
 @ApiBearerAuth()
-@Controller("/sizes")
-export class SizeController {
-  constructor(private readonly sizeService: SizeService) {}
+@ApiTags("Sizes")
+@Controller("sizes")
+export class SizesController {
+  constructor(private readonly sizeService: SizesService) {}
 
   @Post()
   @HttpCode(201)
@@ -40,7 +40,7 @@ export class SizeController {
   @Get(":id")
   @HttpCode(200)
   findOne(@Param("id") id: string): Promise<Size | null> {
-    return this.sizeService.getOneById(id);
+    return this.sizeService.findOne(id);
   }
 
   @Patch(":id")
