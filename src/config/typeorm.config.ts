@@ -1,15 +1,25 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { Base } from "src/domains/bases/bases.entity";
-import { Dish } from "src/domains/dishes/dishes.entity";
-import { Order } from "src/domains/orders/orders.entity";
-import { Protein } from "src/domains/proteins/proteins.entity";
-import { Size } from "src/domains/sizes/sizes.entity";
-import { Topping } from "src/domains/toppings/toppings.entity";
-import { User } from "src/domains/users/users.entity";
+import { Base } from "../domains/bases/bases.entity";
+import { Dish } from "../domains/dishes/dishes.entity";
+import { Order } from "../domains/orders/orders.entity";
+import { Protein } from "../domains/proteins/proteins.entity";
+import { Size } from "../domains/sizes/sizes.entity";
+import { Topping } from "../domains/toppings/toppings.entity";
+import { User } from "../domains/users/users.entity";
+
+const IS_LOCAL: boolean = process.env.STAGE === "local";
 
 export const TypeOrmConfig: TypeOrmModuleOptions = {
   type: "postgres",
   url: process.env.DATABASE_URL,
   entities: [Base, Dish, Order, Protein, Size, Topping, User],
-  synchronize: process.env.STAGE === "local",
+  synchronize: IS_LOCAL,
+  ssl: !IS_LOCAL,
+  extra: IS_LOCAL
+    ? {}
+    : {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
 };
