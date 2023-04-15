@@ -42,9 +42,7 @@ export class UsersController {
 
   @Patch("/password")
   @UseGuards(JwTAuthGuard)
-  public updatePassword(
-    @Body() body: ChangePasswordDto
-  ): Promise<object | HttpException> {
+  public updatePassword(@Body() body: ChangePasswordDto): Promise<object | HttpException> {
     return this.userService.updatePassword(body);
   }
 
@@ -59,9 +57,7 @@ export class UsersController {
 
   @Patch("/:id")
   @UseGuards(JwTAuthGuard)
-  public updateProfile(
-    @Body() body: UpdateUserDto
-  ): Promise<object | HttpException> {
+  public updateProfile(@Body() body: UpdateUserDto): Promise<object | HttpException> {
     return this.userService.updateProfile(body);
   }
 

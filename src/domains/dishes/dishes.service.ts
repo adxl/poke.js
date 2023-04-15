@@ -3,7 +3,7 @@ import { DeleteResult, Repository, UpdateResult } from "typeorm";
 import { Dish } from "./dishes.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { NotFoundError } from "src/exceptions";
-import { CreateDishDto, UpdateDishDto } from "./dishes.dto";
+import { CreateDishDto } from "./dishes.dto";
 import { SizesService } from "../sizes/sizes.service";
 import { BasesService } from "../bases/bases.service";
 import { ToppingsService } from "../toppings/toppings.service";
@@ -48,7 +48,7 @@ export class DishesService {
     return Promise.all(data.map((dish) => this.create(dish)));
   }
 
-  async update(id: string, data: UpdateDishDto): Promise<UpdateResult> {
+  async update(id: string /*, data: UpdateDishDto */): Promise<UpdateResult> {
     await this.findOne(id);
 
     /* TODO: convertir la data en Dish object */

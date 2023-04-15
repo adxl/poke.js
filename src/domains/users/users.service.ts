@@ -1,10 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Scope,
-} from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable, Scope } from "@nestjs/common";
 import { REQUEST } from "@nestjs/core";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Request } from "express";
@@ -49,22 +43,14 @@ export class UsersService {
     return user;
   }
 
-  public async updatePassword(
-    body: ChangePasswordDto
-  ): Promise<object | HttpException> {
+  public async updatePassword(body: ChangePasswordDto): Promise<object | HttpException> {
     if (!body.oldPwd || !body.newPwd)
-      throw new HttpException(
-        "You must provide all the informations",
-        HttpStatus.BAD_REQUEST
-      );
+      throw new HttpException("You must provide all the informations", HttpStatus.BAD_REQUEST);
 
     const reqUser: UserDto = <UserDto>this.request.user;
 
     if (!reqUser.id)
-      throw new HttpException(
-        "You must provide all the informations",
-        HttpStatus.BAD_REQUEST
-      );
+      throw new HttpException("You must provide all the informations", HttpStatus.BAD_REQUEST);
 
     const user: User | null = await this.userRepository.findOneBy({
       id: reqUser.id,
@@ -81,14 +67,9 @@ export class UsersService {
     return { message: "User updated succesfully" };
   }
 
-  public async updateProfile(
-    body: UpdateUserDto
-  ): Promise<object | HttpException> {
+  public async updateProfile(body: UpdateUserDto): Promise<object | HttpException> {
     if (!body.firstName && !body.lastName)
-      throw new HttpException(
-        "You must provide all the informations",
-        HttpStatus.BAD_REQUEST
-      );
+      throw new HttpException("You must provide all the informations", HttpStatus.BAD_REQUEST);
 
     const reqUser: UserDto = <UserDto>this.request.user;
 
@@ -96,8 +77,7 @@ export class UsersService {
       id: reqUser.id,
     });
 
-    if (!user)
-      throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
+    if (!user) throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
 
     if (body.firstName && body.firstName?.length > 0) {
       user.firstName = body.firstName;
@@ -112,14 +92,10 @@ export class UsersService {
     return { message: "User updated succesfully" };
   }
 
-  public async updateRole(
-    id: string,
-    role: string
-  ): Promise<object | HttpException> {
+  public async updateRole(id: string, role: string): Promise<object | HttpException> {
     const user: User | null = await this.userRepository.findOneBy({ id });
 
-    if (!user)
-      throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
+    if (!user) throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
 
     user.isAdmin = role === "ADMIN";
 
@@ -130,15 +106,11 @@ export class UsersService {
 
   public async deleteUser(id: string): Promise<object | HttpException> {
     if (!id)
-      throw new HttpException(
-        "You must provide all the informations",
-        HttpStatus.BAD_REQUEST
-      );
+      throw new HttpException("You must provide all the informations", HttpStatus.BAD_REQUEST);
 
     const user: User | null = await this.userRepository.findOneBy({ id });
 
-    if (!user)
-      throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
+    if (!user) throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
 
     this.userRepository.delete(user);
 

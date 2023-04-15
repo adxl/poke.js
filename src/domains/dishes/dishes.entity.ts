@@ -1,10 +1,4 @@
-import {
-  Entity,
-  ManyToMany,
-  JoinTable,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-} from "typeorm";
+import { Entity, ManyToMany, JoinTable, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { Size } from "../sizes/sizes.entity";
 import { Protein } from "../proteins/proteins.entity";
 import { Topping } from "../toppings/toppings.entity";
