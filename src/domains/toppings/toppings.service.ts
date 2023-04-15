@@ -20,7 +20,9 @@ export class ToppingsService {
       throw new HttpException("You must provide an id", HttpStatus.BAD_REQUEST);
     }
 
-    const topping: Topping | null = await this.toppingRepository.findOneBy({ id });
+    const topping: Topping | null = await this.toppingRepository.findOneBy({
+      id,
+    });
 
     if (!topping) {
       throw new HttpException("Could not find topping", HttpStatus.NOT_FOUND);

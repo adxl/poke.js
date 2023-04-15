@@ -25,7 +25,7 @@ export class BasesController {
   @Get()
   @HttpCode(200)
   @Header("poke-app", "Base")
-  getUsers() {
+  getUsers(): Promise<Base[]> {
     return this.basesService.getAll();
   }
 

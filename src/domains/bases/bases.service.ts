@@ -1,10 +1,8 @@
-import { Injectable, HttpException,
-  HttpStatus, } from "@nestjs/common";
+import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Base } from "./bases.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { createBaseDto } from "./bases.dto";
-import { log } from "console";
 
 @Injectable()
 export class BasesService {

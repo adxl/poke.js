@@ -6,19 +6,19 @@ export class createBaseDto {
   @IsAlpha()
   name: string;
 
-  @ApiProperty({ example: 2.50, description: "Price of the Base" })
+  @ApiProperty({ example: 2.5, description: "Price of the Base" })
   @IsNumber()
   price: number;
 }
 
 export class updateBaseDto {
-    @ApiProperty({ example: "Rice", description: "Name of the Base" })
-    @IsAlpha()
-    @IsOptional()
-    name: string;
-  
-    @ApiProperty({ example: 2.50, description: "Price of the Base" })
-    @IsNumber()
-    @IsOptional()
-    price: number;
-  }
+  @ApiProperty({ example: "Rice", description: "Name of the Base" })
+  @IsAlpha()
+  @IsOptional()
+  name: string;
+
+  @ApiProperty({ example: 2.5, description: "Price of the Base" })
+  @IsNumber()
+  @IsOptional()
+  price: number;
+}
