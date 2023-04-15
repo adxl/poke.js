@@ -9,12 +9,6 @@ export class SizeSeeder implements Seeder {
       "TRUNCATE TABLE size RESTART IDENTITY CASCADE"
     );
 
-    const sizes = data.map((size) => {
-      const newSize = new Size();
-      newSize.label = size.label;
-      newSize.value = size.value;
-      return newSize;
-    });
-    await dataSource.manager.save(sizes);
+    dataSource.manager.getRepository(Size).save(data);
   }
 }

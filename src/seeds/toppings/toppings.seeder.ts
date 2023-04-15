@@ -8,12 +8,7 @@ export class ToppingSeeder implements Seeder {
     await dataSource.manager.query(
       "TRUNCATE TABLE topping RESTART IDENTITY CASCADE"
     );
-    const toppings = data.map((topping) => {
-      const newTopping = new Topping();
-      newTopping.name = topping.name;
-      newTopping.price = topping.price;
-      return newTopping;
-    });
-    await dataSource.manager.save(toppings);
+
+    dataSource.manager.getRepository(Topping).save(data);
   }
 }

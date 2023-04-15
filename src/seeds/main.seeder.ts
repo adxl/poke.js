@@ -7,6 +7,7 @@ import { ToppingSeeder } from "./toppings/toppings.seeder";
 
 export class MainSeeder implements Seeder {
   async run(dataSource: DataSource): Promise<void> {
+    await runSeeder(dataSource, UserSeeder);
     await runSeeder(dataSource, BaseSeeder);
     await runSeeder(dataSource, ProteinSeeder);
     await runSeeder(dataSource, SizeSeeder);

@@ -8,6 +8,7 @@ export class ProteinSeeder implements Seeder {
     await dataSource.manager.query(
       "TRUNCATE TABLE protein RESTART IDENTITY CASCADE"
     );
-    await dataSource.manager.save(data as Protein[]);
+
+    dataSource.manager.getRepository(Protein).save(data);
   }
 }
