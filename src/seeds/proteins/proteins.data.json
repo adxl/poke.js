@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Chiken",
+    "price": 2.99
+  },
+  {
+    "name": "Beef",
+    "price": 2.99
+  },
+  {
+    "name": "Pork",
+    "price": 2.99
+  },
+  {
+    "name": "Fish",
+    "price": 2.99
+  },
+  {
+    "name": "tofu",
+    "price": 5.99
+  }
+]
