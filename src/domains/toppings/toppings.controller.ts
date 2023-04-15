@@ -13,8 +13,9 @@ import { ToppingsService } from "./toppings.service";
 import { RoleAdminGuard } from "../auth/admin.guard";
 import { JwTAuthGuard } from "../auth/auth.guard";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { createToppingDto, updateToppingDto } from "./toppings.dto";
+import { CreateToppingDto, UpdateToppingDto } from "./toppings.dto";
 import { Topping } from "./toppings.entity";
+import { DeleteResult, UpdateResult } from "typeorm";
 
 @ApiTags("Toppings")
 @Controller("/toppings")
@@ -24,35 +25,32 @@ export class ToppingsController {
 
   @Get()
   @HttpCode(200)
-  findAll(): Promise<Topping[]> {
-    return this.toppingsService.getAll();
+  getAll(): Promise<Topping[]> {
+    return this.toppingsService.findAll();
   }
 
   @Get(":id")
   @HttpCode(200)
-  findOne(@Param("id") id: string): Promise<Topping> {
-    return this.toppingsService.getOneById(id);
+  getOne(@Param("id") id: string): Promise<Topping> {
+    return this.toppingsService.findOne(id);
   }
 
   @Post()
   @HttpCode(201)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  public create(@Body() body: createToppingDto): Promise<Topping> {
+  create(@Body() body: CreateToppingDto): Promise<Topping> {
     return this.toppingsService.create(body);
   }
 
   @Patch(":id")
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  update(
-    @Param("id") id: string,
-    @Body() topping: updateToppingDto
-  ): Promise<void> {
+  update(@Param("id") id: string, @Body() topping: UpdateToppingDto): Promise<UpdateResult> {
     return this.toppingsService.update(id, topping);
   }
 
   @Delete(":id")
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  remove(@Param("id") id: string): Promise<void> {
+  delete(@Param("id") id: string): Promise<DeleteResult> {
     return this.toppingsService.remove(id);
   }
 }

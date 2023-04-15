@@ -17,6 +17,12 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 100
+      }
+    ],
     "@typescript-eslint/no-unused-vars": "error",
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'error',

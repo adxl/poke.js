@@ -8,6 +8,6 @@ export class Size {
   @Column({ length: 25 })
   label: string;
 
-  @Column()
+  @Column("float")
   value: number;
 }

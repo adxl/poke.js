@@ -1,10 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  ManyToOne,
-  JoinTable,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToMany, ManyToOne, JoinTable } from "typeorm";
 import { Dish } from "../dishes/dishes.entity";
 import { User } from "../users/users.entity";
 
@@ -13,7 +7,7 @@ export class Order {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ManyToOne(() => User, { onDelete: "CASCADE" })
+  @ManyToOne(() => User, (user) => user.orders, { onDelete: "CASCADE" })
   user: User;
 
   @ManyToMany(() => Dish)

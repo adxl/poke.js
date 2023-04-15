@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Size } from "./sizes.entity";
-import { SizeController } from "./sizes.controller";
-import { SizeService } from "./sizes.service";
+import { SizesController } from "./sizes.controller";
+import { SizesService } from "./sizes.service";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Size])],
-  controllers: [SizeController],
-  providers: [SizeService],
+  controllers: [SizesController],
+  providers: [SizesService],
 })
-export class SizeModule {}
+export class SizesModule {}
