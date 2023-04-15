@@ -7,6 +7,7 @@ import { AuthModule } from "./domains/auth/auth.module";
 import { UsersModule } from "./domains/users/users.module";
 import { BasesModule } from "./domains/bases/bases.module";
 import { SizeModule } from "./domains/sizes/sizes.module";
+import { ToppingsModule } from "./domains/toppings/toppings.module";
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { SizeModule } from "./domains/sizes/sizes.module";
     UsersModule,
     BasesModule,
     SizeModule,
+    ToppingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

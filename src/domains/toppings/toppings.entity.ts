@@ -8,9 +8,6 @@ export class Topping {
   @Column({ length: 25 })
   name: string;
 
-  @Column()
+  @Column("float")
   price: number;
-
-  @Column()
-  image: string;
 }
