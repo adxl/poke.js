@@ -1,7 +1,5 @@
 <div align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-  <br/>
-  <a href="http://nestjs.com/" target="blank"><img src="./logo.svg" width="200" alt="Poke Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="./logo.png" width="200" alt="Nest Logo" /></a>
 </div>
 
 <hr />
