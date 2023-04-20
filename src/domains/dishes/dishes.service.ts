@@ -21,7 +21,7 @@ export class DishesService {
   ) {}
 
   findAll(): Promise<Dish[]> {
-    return this.dishRepository.find();
+    return this.dishRepository.find({ relations: ["toppings", "proteins"] });
   }
 
   async findOne(id: string): Promise<Dish> {
