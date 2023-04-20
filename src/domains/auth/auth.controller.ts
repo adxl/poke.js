@@ -2,6 +2,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  HttpCode,
   HttpException,
   Inject,
   Post,
@@ -26,6 +27,7 @@ export class AuthController {
   }
 
   @Post("login")
+  @HttpCode(200)
   public login(@Body() body: LoginDto): Promise<string | HttpException> {
     return this.authService.login(body);
   }
