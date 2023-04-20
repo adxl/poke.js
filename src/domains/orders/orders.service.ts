@@ -15,7 +15,9 @@ export class OrdersService {
   ) {}
 
   findAll(): Promise<Order[]> {
-    return this.ordersRepository.find({ relations: ["user"] });
+    return this.ordersRepository.find({
+      relations: ["user", "dishes", "dishes.toppings", "dishes.proteins"],
+    });
   }
 
   findAllSelf(userId: string): Promise<Order[]> {
