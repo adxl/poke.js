@@ -25,7 +25,10 @@ export class DishesService {
   }
 
   async findOne(id: string): Promise<Dish> {
-    const dish: Dish | null = await this.dishRepository.findOneBy({ id });
+    const dish: Dish | null = await this.dishRepository.findOne({
+      where: { id },
+      relations: ["toppings", "proteins"],
+    });
     if (!dish) throw NotFoundError("dish", id);
 
     return dish;
@@ -50,13 +53,9 @@ export class DishesService {
 
   async update(id: string, data: UpdateDishDto): Promise<Dish> {
     await this.findOne(id);
-    const [size, base, toppings, proteins] = await Promise.all([
-      this.sizesService.findOne(data.size),
-      this.basesService.findOne(data.base),
-      this.toppingsService.findAllById(data.toppings),
-      this.proteinsService.findAllById(data.proteins),
-    ]);
-    const dish: Dish = this.dishRepository.create({ size, base, toppings, proteins });
+
+    const dish = await this.findOne(id);
+
     if ("base" in data) {
       dish.base = await this.basesService.findOne(data.base);
     }
@@ -69,6 +68,7 @@ export class DishesService {
     if ("proteins" in data) {
       dish.proteins = await this.proteinsService.findAllById(data.proteins);
     }
+
     return this.dishRepository.save(dish);
   }
 

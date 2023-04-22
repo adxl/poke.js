@@ -54,8 +54,8 @@ export class OrdersController {
   @HttpCode(201)
   @UseGuards(JwTAuthGuard)
   update(
-    @Param("id") id: string,
     @Req() request: Request,
+    @Param("id") id: string,
     @Body() order: UpdateOrderDto
   ): Promise<Order> {
     return this.ordersService.update(id, order, request.user as User);

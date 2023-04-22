@@ -31,7 +31,7 @@ export class OrdersService {
   async findOne(id: string): Promise<Order> {
     const order: Order | null = await this.ordersRepository.findOne({
       where: { id },
-      relations: ["user"],
+      relations: ["user", "dishes", "dishes.toppings", "dishes.proteins"],
     });
     if (!order) throw new NotFoundException(`Could not find order ${id}`);
 
@@ -39,9 +39,12 @@ export class OrdersService {
   }
 
   async findOneByUser(orderId: string, userId: string): Promise<Order> {
-    const order: Order | null = await this.ordersRepository.findOneBy({
-      id: orderId,
-      user: { id: userId },
+    const order: Order | null = await this.ordersRepository.findOne({
+      where: {
+        id: orderId,
+        user: { id: userId },
+      },
+      relations: ["dishes", "dishes.toppings", "dishes.proteins"],
     });
     if (!order) throw new NotFoundException(`Could not find order ${orderId}`);
 
