@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
 import "./App.css";
 import { AuthProvider } from "@hooks/auth";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
@@ -11,7 +11,7 @@ const Home = React.lazy(() => import("@pages/Home"))
 
 function App() {
   return (
-    <div className="container" id="app">
+    <div id="app">
       <AuthProvider>
         <Suspense fallback={<Spinner aria-label="Chargement..." color="pink" size="xl" />}>
           <Router>

@@ -1,6 +1,5 @@
 import { useAuth } from "@hooks/auth";
 
-import menu from "./menu.json";
 import { Button, Navbar } from "flowbite-react";
 import React from "react";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/20/solid"
@@ -10,11 +9,11 @@ export default React.memo(function Header() {
   const { user } = useAuth();
 
   return (
-    <Navbar fluid={true} rounded={true} className="mb-5">
+    <Navbar fluid className="mb-5 text-white">
       <Link to={"/home"} className="flex items-center">
         <img src="/logo.png" className="w-10 h-10 mr-2"/>
         <span className="self-center whitespace-nowrap text-xl font-semibold">
-          Poke.js
+          Poke
         </span>
       </Link>
       <div className="flex items-center">

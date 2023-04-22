@@ -27,17 +27,17 @@ export class AuthController {
 
   @Post("register")
   @UseInterceptors(ClassSerializerInterceptor)
-  public register(@Body() body: RegisterDto): Promise<User | HttpException> {
+  public register(@Body() body: RegisterDto): Promise<User> {
     return this.authService.register(body);
   }
 
   @Post("login")
   @HttpCode(200)
-  public login(@Body() body: LoginDto): Promise<string | HttpException> {
+  public login(@Body() body: LoginDto): Promise<string> {
     return this.authService.login(body);
   }
 
-  @Get("/me")
+  @Get("me")
   @UseGuards(JwTAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   public getOneUserByToken(@Req() request: Request): Promise<User> {
