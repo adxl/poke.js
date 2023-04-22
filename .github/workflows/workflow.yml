@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  build:
+  build-api:
     runs-on: ubuntu-20.04
 
     steps:
@@ -20,9 +20,26 @@ jobs:
 
       - name: Build project
         run: npm run build
+  
+  build-front:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: cd public && npm install
+      
+      - name: Build project
+        run: cd public && npm run build
 
   publish:
-    needs: build
+    needs: [build-api, build-front]
     runs-on: ubuntu-20.04
     
     if: github.ref_name == 'master'

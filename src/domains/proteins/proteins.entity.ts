@@ -10,4 +10,7 @@ export class Protein {
 
   @Column("float")
   price: number;
+
+  @Column()
+  image_url: string;
 }

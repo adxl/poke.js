@@ -1,10 +1,13 @@
-import { BadRequestException, HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../users/users.entity";
 import { Repository } from "typeorm";
 import { AuthHelper } from "./auth.helper";
 import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";
+import { UserDto } from "../users/dto/user.dto";
+import { Request } from "express";
+import { NotFoundError } from "src/exceptions";
 
 @Injectable()
 export class AuthService {
@@ -25,21 +28,35 @@ export class AuthService {
     return this.usersRepository.save(body);
   }
 
-  public async login(body: LoginDto): Promise<string | HttpException> {
+  public async login(body: LoginDto): Promise<string> {
     const exists: User | null = await this.usersRepository.findOneBy({
       email: body.email,
     });
 
     if (!exists) {
-      throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
+      throw NotFoundError("user", body.email);
     }
 
     const isPwdValid = this.helper.validPwd(exists, body.password);
 
     if (!isPwdValid) {
-      throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
+      throw NotFoundError("user", body.email);
     }
 
     return this.helper.generateToken(exists);
+  }
+
+  public async getOneUserByToken(request: Request): Promise<User> {
+    const reqUser: UserDto = <UserDto>request.user;
+
+    const user: User | null = await this.usersRepository.findOneBy({
+      id: reqUser.id,
+    });
+
+    if (!user) {
+      throw new NotFoundException("Could not find user");
+    }
+
+    return user;
   }
 }
