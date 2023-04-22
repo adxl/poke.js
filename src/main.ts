@@ -4,7 +4,12 @@ import InitSwagger from "./config/swagger.config";
 import { AppModule } from "./app.module";
 
 async function initApp(): Promise<void> {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: [/localhost:3000/, /\.vercel\.app$/],
+  });
+
   InitSwagger(app);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
