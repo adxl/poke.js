@@ -1,18 +1,18 @@
 import { _get } from "./gateway";
 
 export function getBases() {
-  return _get("/bases");
+  return _get("/v1/bases");
 }
 
 export function getSizes() {
-  return _get("/sizes");
+  return _get("/v1/sizes");
 }
 
 export function getProteins() {
-  return _get("/proteins");
+  return _get("/v1/proteins");
 }
 
 export function getToppings() {
-  return _get("/toppings");
+  return _get("/v1/toppings");
 }
 

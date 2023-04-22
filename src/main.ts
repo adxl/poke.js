@@ -1,4 +1,4 @@
-import { ValidationPipe } from "@nestjs/common";
+import { ValidationPipe, VersioningType } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import InitSwagger from "./config/swagger.config";
 import { AppModule } from "./app.module";
@@ -10,6 +10,11 @@ async function initApp(): Amin {
   app.enableCors({
     origin: [/localhost:3000/, /\.vercel\.app$/],
   });
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
+  app.setGlobalPrefix("v1");
 
   InitSwagger(app);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
