@@ -6,8 +6,8 @@ import { Button, Card } from "flowbite-react";
 export default function Login() {
   const { login, token } = useAuth();
 
-  const [_email, setEmail] = useState("adel@poke.fr");
-  const [_password, setPassword] = useState("password");
+  const [_email, setEmail] = useState("");
+  const [_password, setPassword] = useState("");
   const [_error, setError] = useState("");
 
   function handleEmailChange(event) {
@@ -32,7 +32,7 @@ export default function Login() {
   }
 
   return (
-    <div className="container flex min-h-full justify-center items-center">
+    <div className="flex min-h-full justify-center items-center p-20">
       <Card className="max-w-md w-1/2 py-4">
         <div className="flex flex-col w-full items-center">
           <img
@@ -48,7 +48,7 @@ export default function Login() {
             <div className="mb-6">
               <label
                 htmlFor="email"
-                className="block mb-2 text-sm font-medium text-white text-left"
+                className="block mb-2 text-sm font-medium text-left"
               >
                 E-mail :
               </label>
@@ -64,7 +64,7 @@ export default function Login() {
             <div className="mb-6">
               <label
                 htmlFor="pwd"
-                className="block mb-2 text-sm font-medium text-white text-left"
+                className="block mb-2 text-sm font-medium text-left"
               >
                 Mot de passe :
               </label>

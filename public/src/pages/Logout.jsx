@@ -9,7 +9,7 @@ export default function Logout() {
   }, []);
 
   return (
-    <div className="container">
+    <div className="p-20">
       <p>Déconnexion réussie !</p>
     </div>
   )

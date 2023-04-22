@@ -9,7 +9,7 @@ export default React.memo(function Header() {
   const { user } = useAuth();
 
   return (
-    <Navbar fluid className="mb-5 text-white">
+    <Navbar fluid className="mb-5 text-white bg-gray-500">
       <Link to={"/home"} className="flex items-center">
         <img src="/logo.png" className="w-10 h-10 mr-2"/>
         <span className="self-center whitespace-nowrap text-xl font-semibold">

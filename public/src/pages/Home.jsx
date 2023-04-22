@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <Card className="max-w-sm w-full py-4 text-white">
+      <Card className="max-w-sm w-full py-4">
         <h1 className="text-3xl">Carte</h1>
       </Card>
 
