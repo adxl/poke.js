@@ -3,8 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { DishesService } from "../dishes/dishes.service";
 import { User } from "../users/users.entity";
-import { CreateOrderDto } from "./orders.dto";
+import { CreateOrderDto, UpdateOrderDto } from "./orders.dto";
 import { Order } from "./orders.entity";
+import { Dish } from "../dishes/dishes.entity";
 
 @Injectable()
 export class OrdersService {
@@ -21,7 +22,10 @@ export class OrdersService {
   }
 
   findAllSelf(userId: string): Promise<Order[]> {
-    return this.ordersRepository.find({ where: { user: { id: userId } } });
+    return this.ordersRepository.find({
+      relations: ["dishes", "dishes.toppings", "dishes.proteins"],
+      where: { user: { id: userId } },
+    });
   }
 
   async findOne(id: string): Promise<Order> {
@@ -51,8 +55,10 @@ export class OrdersService {
     return this.ordersRepository.save(order);
   }
 
-  //async update(): Promise<UpdateResult> {
-  //  await this.findOneByUser(id, userId);
-  //  //
-  //}
+  async update(id: string, data: UpdateOrderDto, user: User): Promise<Order> {
+    await this.findOneByUser(id, user.id);
+
+    const dishes: Dish[] = await this.dishesService.updateMany(data.dishes);
+    return this.ordersRepository.save({ id, dishes });
+  }
 }

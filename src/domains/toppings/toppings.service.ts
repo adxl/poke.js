@@ -16,7 +16,7 @@ export class ToppingsService {
     return this.toppingsRepository.find();
   }
 
-  findAllById(ids: string[]): Promise<Topping[]> {
+  findAllById(ids: string[] = []): Promise<Topping[]> {
     return this.toppingsRepository.findBy({ id: In(ids) });
   }
 

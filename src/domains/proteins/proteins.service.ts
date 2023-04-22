@@ -16,7 +16,7 @@ export class ProteinsService {
     return this.proteinsRepository.find();
   }
 
-  findAllById(ids: string[]): Promise<Protein[]> {
+  findAllById(ids: string[] = []): Promise<Protein[]> {
     return this.proteinsRepository.findBy({ id: In(ids) });
   }
 
