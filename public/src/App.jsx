@@ -1,35 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Suspense, useState } from "react";
+import "./App.css";
+import { AuthProvider } from "@hooks/auth";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { Spinner } from "flowbite-react";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import Logout from "./pages/Logout";
+
+const Login = React.lazy(() => import("@pages/Login"))
+const Home = React.lazy(() => import("@pages/Home"))
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="container" id="app">
+      <AuthProvider>
+        <Suspense fallback={<Spinner aria-label="Chargement..." color="pink" size="xl" />}>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Navigate to="/login" />} />
+              <Route path="/login" element={<Login/>} />
+              <Route exact path="/logout" element={<Logout />} />
+              <Route path="/home" element={<ProtectedRoutes el={Home} />} />
+            </Routes>
+          </Router>
+        </Suspense>
+      </AuthProvider>
+    </div>
+  );
 }
 
-export default App
+export default App;
