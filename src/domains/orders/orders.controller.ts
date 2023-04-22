@@ -1,9 +1,19 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Req, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+  Patch,
+} from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Request } from "express";
 import { JwTAuthGuard } from "../auth/auth.guard";
 import { User } from "../users/users.entity";
-import { CreateOrderDto } from "./orders.dto";
+import { CreateOrderDto, UpdateOrderDto } from "./orders.dto";
 import { Order } from "./orders.entity";
 import { OrdersService } from "./orders.service";
 
@@ -17,7 +27,6 @@ export class OrdersController {
   @HttpCode(200)
   @UseGuards(JwTAuthGuard)
   getAll(@Req() request: Request): Promise<Order[]> {
-    return this.ordersService.findAll();
     if ((request.user as User).isAdmin) {
       return this.ordersService.findAll();
     }
@@ -41,10 +50,14 @@ export class OrdersController {
     return this.ordersService.create(order, request.user as User);
   }
 
-  // @Patch()
-  // @HttpCode(201)
-  // @UseGuards(JwTAuthGuard)
-  // update(@Req() request: Request, @Body() order: ?): Promise<Order> {
-  //   return this.ordersService.update(order, request.user as User);
-  // }
+  @Patch(":id")
+  @HttpCode(201)
+  @UseGuards(JwTAuthGuard)
+  update(
+    @Param("id") id: string,
+    @Req() request: Request,
+    @Body() order: UpdateOrderDto
+  ): Promise<Order> {
+    return this.ordersService.update(id, order, request.user as User);
+  }
 }

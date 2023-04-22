@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { DeleteResult, Repository, UpdateResult } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { Dish } from "./dishes.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { NotFoundError } from "src/exceptions";
-import { CreateDishDto } from "./dishes.dto";
+import { CreateDishDto, UpdateDishDto } from "./dishes.dto";
 import { SizesService } from "../sizes/sizes.service";
 import { BasesService } from "../bases/bases.service";
 import { ToppingsService } from "../toppings/toppings.service";
@@ -48,13 +48,32 @@ export class DishesService {
     return Promise.all(data.map((dish) => this.create(dish)));
   }
 
-  async update(id: string /*, data: UpdateDishDto */): Promise<UpdateResult> {
+  async update(id: string, data: UpdateDishDto): Promise<Dish> {
     await this.findOne(id);
+    const [size, base, toppings, proteins] = await Promise.all([
+      this.sizesService.findOne(data.size),
+      this.basesService.findOne(data.base),
+      this.toppingsService.findAllById(data.toppings),
+      this.proteinsService.findAllById(data.proteins),
+    ]);
+    const dish: Dish = this.dishRepository.create({ size, base, toppings, proteins });
+    if ("base" in data) {
+      dish.base = await this.basesService.findOne(data.base);
+    }
+    if ("size" in data) {
+      dish.size = await this.sizesService.findOne(data.size);
+    }
+    if ("toppings" in data) {
+      dish.toppings = await this.toppingsService.findAllById(data.toppings);
+    }
+    if ("proteins" in data) {
+      dish.proteins = await this.proteinsService.findAllById(data.proteins);
+    }
+    return this.dishRepository.save(dish);
+  }
 
-    /* TODO: convertir la data en Dish object */
-
-    const dish = {};
-    return this.dishRepository.update(id, dish);
+  async updateMany(data: UpdateDishDto[]): Promise<Dish[]> {
+    return Promise.all(data.map((dish) => this.update(dish.id, dish)));
   }
 
   async remove(id: string): Promise<DeleteResult> {

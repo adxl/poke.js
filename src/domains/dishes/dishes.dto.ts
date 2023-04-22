@@ -21,6 +21,10 @@ export class CreateDishDto {
 
 export class UpdateDishDto {
   @ApiProperty({ example: "" })
+  @IsUUID(4)
+  id: string;
+
+  @ApiProperty({ example: "" })
   @IsOptional()
   @IsUUID(4)
   size: string;
