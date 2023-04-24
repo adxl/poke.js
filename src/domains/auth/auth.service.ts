@@ -24,8 +24,11 @@ export class AuthService {
 
     if (user) throw new BadRequestException("Email already exists");
 
-    body.password = await this.helper.hashPwd(body.password);
-    return this.usersRepository.save(body);
+    const newUser: User = this.usersRepository.create(body);
+
+    this.usersRepository.insert(newUser);
+
+    return newUser;
   }
 
   public async login(body: LoginDto): Promise<string> {
