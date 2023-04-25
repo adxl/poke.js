@@ -5,6 +5,7 @@ import { data } from "./users.data";
 
 export class UserSeeder implements Seeder {
   async run(dataSource: DataSource): Promise<void> {
-    await dataSource.manager.getRepository(User).save(data);
+    const newUsers: User[] = await dataSource.manager.getRepository(User).create(data);
+    await dataSource.manager.getRepository(User).insert(newUsers);
   }
 }
