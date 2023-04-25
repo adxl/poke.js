@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TypeOrmConfig } from "./config/typeorm.config";
 import { AuthModule } from "./domains/auth/auth.module";
@@ -9,6 +9,7 @@ import { DishesModule } from "./domains/dishes/dishes.module";
 import { OrdersModule } from "./domains/orders/orders.module";
 import { ToppingsModule } from "./domains/toppings/toppings.module";
 import { ProteinsModule } from "./domains/proteins/proteins.module";
+import { HelmetMiddleware } from "@nest-middlewares/helmet";
 
 @Module({
   imports: [
@@ -23,4 +24,8 @@ import { ProteinsModule } from "./domains/proteins/proteins.module";
     ProteinsModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(HelmetMiddleware).forRoutes("*");
+  }
+}
