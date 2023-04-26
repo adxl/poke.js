@@ -1,6 +1,7 @@
 import { Exclude } from "class-transformer";
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeInsert } from "typeorm";
 import { Order } from "../orders/orders.entity";
+import * as bcrypt from "bcryptjs";
 
 @Entity()
 export class User {
@@ -26,4 +27,10 @@ export class User {
 
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
+
+  @BeforeInsert()
+  async hashPwd?(): Promise<void> {
+    this.password = await bcrypt.hash(this.password, 10);
+    return;
+  }
 }

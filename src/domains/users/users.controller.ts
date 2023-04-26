@@ -55,7 +55,7 @@ export class UsersController {
     return this.userService.updateRole(id, body.role);
   }
 
-  @Patch("/:id")
+  @Patch()
   @UseGuards(JwTAuthGuard)
   public updateProfile(@Body() body: UpdateUserDto): Promise<object | HttpException> {
     return this.userService.updateProfile(body);

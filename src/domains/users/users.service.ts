@@ -112,7 +112,7 @@ export class UsersService {
 
     if (!user) throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
 
-    this.userRepository.delete(user);
+    this.userRepository.remove(user);
 
     return { message: "User deleted succesfully" };
   }
