@@ -10,6 +10,7 @@ import {
   Patch,
   UseGuards,
   UseInterceptors,
+  HttpCode,
 } from "@nestjs/common";
 import { RoleAdminGuard } from "../auth/admin.guard";
 import { JwTAuthGuard } from "../auth/auth.guard";
@@ -27,6 +28,7 @@ export class UsersController {
   private readonly userService: UsersService;
 
   @Get()
+  @HttpCode(200)
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   public getAllUsers(): Promise<User[] | HttpException> {
@@ -34,6 +36,7 @@ export class UsersController {
   }
 
   @Get("/:id")
+  @HttpCode(200)
   @UseGuards(JwTAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   public getOneUser(@Param("id") id: string): Promise<User | HttpException> {
@@ -41,12 +44,14 @@ export class UsersController {
   }
 
   @Patch("/password")
+  @HttpCode(200)
   @UseGuards(JwTAuthGuard)
   public updatePassword(@Body() body: ChangePasswordDto): Promise<object | HttpException> {
     return this.userService.updatePassword(body);
   }
 
   @Patch("/:id/role")
+  @HttpCode(200)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   public updateRole(
     @Param("id") id: string,
@@ -56,12 +61,14 @@ export class UsersController {
   }
 
   @Patch()
+  @HttpCode(200)
   @UseGuards(JwTAuthGuard)
   public updateProfile(@Body() body: UpdateUserDto): Promise<object | HttpException> {
     return this.userService.updateProfile(body);
   }
 
   @Delete("/:id")
+  @HttpCode(204)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   public deleteUser(@Param("id") id: string): Promise<object | HttpException> {
     return this.userService.deleteUser(id);

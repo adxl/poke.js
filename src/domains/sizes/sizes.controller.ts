@@ -44,12 +44,14 @@ export class SizesController {
   }
 
   @Patch(":id")
+  @HttpCode(200)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   update(@Param("id") id: string, @Body() size: UpdateSizeDto): Promise<void> {
     return this.sizeService.update(id, size);
   }
 
   @Delete(":id")
+  @HttpCode(204)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   remove(@Param("id") id: string): Promise<void> {
     return this.sizeService.remove(id);

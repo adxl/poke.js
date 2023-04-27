@@ -43,12 +43,14 @@ export class ProteinsController {
   }
 
   @Patch(":id")
+  @HttpCode(200)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   update(@Param("id") id: string, @Body() topping: UpdateProteinDto): Promise<UpdateResult> {
     return this.proteinsService.update(id, topping);
   }
 
   @Delete(":id")
+  @HttpCode(204)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   delete(@Param("id") id: string): Promise<DeleteResult> {
     return this.proteinsService.remove(id);
