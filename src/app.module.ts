@@ -26,6 +26,13 @@ import { HelmetMiddleware } from "@nest-middlewares/helmet";
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
+    HelmetMiddleware.configure({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["`self`"],
+        },
+      },
+    });
     consumer.apply(HelmetMiddleware).forRoutes("*");
   }
 }
