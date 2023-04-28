@@ -9,16 +9,13 @@ import { DishesModule } from "./domains/dishes/dishes.module";
 import { OrdersModule } from "./domains/orders/orders.module";
 import { ToppingsModule } from "./domains/toppings/toppings.module";
 import { ProteinsModule } from "./domains/proteins/proteins.module";
-import { ThrottlerModule as throttleModule } from "@nestjs/throttler";
 import { APP_GUARD } from "@nestjs/core";
-import { ThrottlerGuard } from "@nestjs/throttler";
+import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+import { ThrottleConfig } from "./config/throttle.config";
 
 @Module({
   imports: [
-    throttleModule.forRoot({
-      ttl: 30,
-      limit: 10,
-    }),
+    ThrottlerModule.forRoot(ThrottleConfig),
     TypeOrmModule.forRoot(TypeOrmConfig),
     AuthModule,
     UsersModule,
