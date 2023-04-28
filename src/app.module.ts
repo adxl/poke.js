@@ -9,9 +9,13 @@ import { DishesModule } from "./domains/dishes/dishes.module";
 import { OrdersModule } from "./domains/orders/orders.module";
 import { ToppingsModule } from "./domains/toppings/toppings.module";
 import { ProteinsModule } from "./domains/proteins/proteins.module";
+import { APP_GUARD } from "@nestjs/core";
+import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+import { ThrottleConfig } from "./config/throttle.config";
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot(ThrottleConfig),
     TypeOrmModule.forRoot(TypeOrmConfig),
     AuthModule,
     UsersModule,
@@ -21,6 +25,12 @@ import { ProteinsModule } from "./domains/proteins/proteins.module";
     ToppingsModule,
     DishesModule,
     ProteinsModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}
