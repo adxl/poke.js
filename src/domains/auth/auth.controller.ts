@@ -25,18 +25,20 @@ export class AuthController {
   private readonly authService: AuthService;
 
   @Post("register")
+  @HttpCode(201)
   @UseInterceptors(ClassSerializerInterceptor)
   public register(@Body() body: RegisterDto): Promise<User> {
     return this.authService.register(body);
   }
 
   @Post("login")
-  @HttpCode(200)
+  @HttpCode(201)
   public login(@Body() body: LoginDto): Promise<string> {
     return this.authService.login(body);
   }
 
   @Get("me")
+  @HttpCode(200)
   @UseGuards(JwTAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   public getOneUserByToken(@Req() request: Request): Promise<User> {

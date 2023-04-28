@@ -43,12 +43,14 @@ export class ToppingsController {
   }
 
   @Patch(":id")
+  @HttpCode(200)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   update(@Param("id") id: string, @Body() topping: UpdateToppingDto): Promise<UpdateResult> {
     return this.toppingsService.update(id, topping);
   }
 
   @Delete(":id")
+  @HttpCode(204)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   delete(@Param("id") id: string): Promise<DeleteResult> {
     return this.toppingsService.remove(id);

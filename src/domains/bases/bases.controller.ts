@@ -44,12 +44,14 @@ export class BasesController {
   }
 
   @Patch(":id")
+  @HttpCode(200)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   update(@Param("id") id: string, @Body() body: updateBaseDto): Promise<void> {
     return this.basesService.update(id, body);
   }
 
   @Delete(":id")
+  @HttpCode(204)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
   delete(@Param("id") id: string): Promise<void> {
     return this.basesService.remove(id);
