@@ -25,7 +25,7 @@ async function initApp(): Amin {
   InitSwagger(app);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-  
+
   app.use(compression());
 
   await app.listen(5000);
