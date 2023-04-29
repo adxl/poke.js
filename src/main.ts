@@ -3,6 +3,7 @@ import { NestFactory } from "@nestjs/core";
 import InitSwagger from "./config/swagger.config";
 import { AppModule } from "./app.module";
 import { Amin } from "./types/special/main/types";
+import * as compression from "compression";
 
 async function initApp(): Amin {
   const app = await NestFactory.create(AppModule, {
@@ -26,6 +27,8 @@ async function initApp(): Amin {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   await app.listen(5000);
+
+  app.use(compression());
 }
 
 initApp();
