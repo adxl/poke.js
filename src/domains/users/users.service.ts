@@ -44,9 +44,6 @@ export class UsersService {
   }
 
   public async updatePassword(body: ChangePasswordDto): Promise<object> {
-    if (!body.oldPwd || !body.newPwd)
-      throw new HttpException("You must provide all the informations", HttpStatus.BAD_REQUEST);
-
     const reqUser: UserDto = <UserDto>this.request.user;
 
     if (!reqUser.id)

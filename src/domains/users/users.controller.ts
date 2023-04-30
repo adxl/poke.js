@@ -19,9 +19,10 @@ import { UpdateUserRoleDto } from "./dto/update-role.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "./users.entity";
 import { UsersService } from "./users.service";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Users")
+@ApiBearerAuth()
 @Controller("users")
 export class UsersController {
   @Inject(UsersService)

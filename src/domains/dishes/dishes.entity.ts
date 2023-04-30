@@ -9,10 +9,10 @@ export class Dish {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ManyToOne(() => Size, { eager: true })
+  @ManyToOne(() => Size, { eager: true, onDelete: "CASCADE" })
   size: Size;
 
-  @ManyToOne(() => Base, { eager: true })
+  @ManyToOne(() => Base, { eager: true, onDelete: "CASCADE" })
   base: Base;
 
   @ManyToMany(() => Protein)

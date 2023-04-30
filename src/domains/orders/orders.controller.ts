@@ -9,6 +9,8 @@ import {
   UseGuards,
   Patch,
   ParseUUIDPipe,
+  ClassSerializerInterceptor,
+  UseInterceptors,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Request } from "express";
@@ -27,6 +29,7 @@ export class OrdersController {
   @Get()
   @HttpCode(200)
   @UseGuards(JwTAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   getAll(@Req() request: Request): Promise<Order[]> {
     if ((request.user as User).isAdmin) {
       return this.ordersService.findAll();
@@ -37,6 +40,7 @@ export class OrdersController {
   @Get(":id")
   @HttpCode(200)
   @UseGuards(JwTAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   getOne(@Req() request: Request, @Param("id", new ParseUUIDPipe()) id: string): Promise<Order> {
     if ((request.user as User).isAdmin) {
       return this.ordersService.findOne(id);

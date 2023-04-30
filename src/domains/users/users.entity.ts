@@ -6,7 +6,6 @@ import * as bcrypt from "bcryptjs";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
-  @Exclude()
   id: string;
 
   @Column()

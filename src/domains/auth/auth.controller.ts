@@ -14,11 +14,12 @@ import { User } from "../users/users.entity";
 import { AuthService } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { JwTAuthGuard } from "./auth.guard";
 import { Request } from "express";
 
 @ApiTags("Auth")
+@ApiBearerAuth()
 @Controller()
 export class AuthController {
   @Inject(AuthService)
