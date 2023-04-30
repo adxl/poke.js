@@ -7,8 +7,8 @@ import {
   Body,
   Param,
   HttpCode,
-  Header,
   UseGuards,
+  ParseUUIDPipe,
 } from "@nestjs/common";
 import { BasesService } from "./bases.service";
 import { RoleAdminGuard } from "../auth/admin.guard";
@@ -25,14 +25,13 @@ export class BasesController {
 
   @Get()
   @HttpCode(200)
-  @Header("poke-app", "Base")
   getAll(): Promise<Base[]> {
     return this.basesService.findAll();
   }
 
   @Get(":id")
   @HttpCode(200)
-  getOne(@Param("id") id: string): Promise<Base> {
+  getOne(@Param("id", new ParseUUIDPipe()) id: string): Promise<Base> {
     return this.basesService.findOne(id);
   }
 
@@ -46,14 +45,14 @@ export class BasesController {
   @Patch(":id")
   @HttpCode(200)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  update(@Param("id") id: string, @Body() body: updateBaseDto): Promise<void> {
+  update(@Param("id", new ParseUUIDPipe()) id: string, @Body() body: updateBaseDto): Promise<void> {
     return this.basesService.update(id, body);
   }
 
   @Delete(":id")
   @HttpCode(204)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  delete(@Param("id") id: string): Promise<void> {
+  delete(@Param("id", new ParseUUIDPipe()) id: string): Promise<void> {
     return this.basesService.remove(id);
   }
 }

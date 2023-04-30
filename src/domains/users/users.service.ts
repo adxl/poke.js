@@ -19,7 +19,7 @@ export class UsersService {
 
   constructor(@Inject(REQUEST) private readonly request: Request) {}
 
-  public async getAllUsers(): Promise<User[] | HttpException> {
+  public async getAllUsers(): Promise<User[]> {
     const users = await this.userRepository.find();
 
     if (!users) {
@@ -29,7 +29,7 @@ export class UsersService {
     return users;
   }
 
-  public async getOneUser(id: string): Promise<User | HttpException> {
+  public async getOneUser(id: string): Promise<User> {
     if (!id) {
       throw new HttpException("You must provide an id", HttpStatus.BAD_REQUEST);
     }
@@ -43,7 +43,7 @@ export class UsersService {
     return user;
   }
 
-  public async updatePassword(body: ChangePasswordDto): Promise<object | HttpException> {
+  public async updatePassword(body: ChangePasswordDto): Promise<object> {
     if (!body.oldPwd || !body.newPwd)
       throw new HttpException("You must provide all the informations", HttpStatus.BAD_REQUEST);
 
@@ -62,12 +62,12 @@ export class UsersService {
 
     user.password = await this.helper.hashPwd(body.newPwd);
 
-    this.userRepository.save(user);
+    await this.userRepository.save(user);
 
     return { message: "User updated succesfully" };
   }
 
-  public async updateProfile(body: UpdateUserDto): Promise<object | HttpException> {
+  public async updateProfile(body: UpdateUserDto): Promise<object> {
     if (!body.firstName && !body.lastName)
       throw new HttpException("You must provide all the informations", HttpStatus.BAD_REQUEST);
 
@@ -87,24 +87,24 @@ export class UsersService {
       user.lastName = body.lastName;
     }
 
-    this.userRepository.save(user);
+    await this.userRepository.save(user);
 
     return { message: "User updated succesfully" };
   }
 
-  public async updateRole(id: string, role: string): Promise<object | HttpException> {
+  public async updateRole(id: string, role: string): Promise<object> {
     const user: User | null = await this.userRepository.findOneBy({ id });
 
     if (!user) throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
 
     user.isAdmin = role === "ADMIN";
 
-    this.userRepository.save(user);
+    await this.userRepository.save(user);
 
     return { message: "User updated succesfully" };
   }
 
-  public async deleteUser(id: string): Promise<object | HttpException> {
+  public async deleteUser(id: string): Promise<object> {
     if (!id)
       throw new HttpException("You must provide all the informations", HttpStatus.BAD_REQUEST);
 
@@ -112,7 +112,7 @@ export class UsersService {
 
     if (!user) throw new HttpException("Could not find user", HttpStatus.NOT_FOUND);
 
-    this.userRepository.remove(user);
+    await this.userRepository.remove(user);
 
     return { message: "User deleted succesfully" };
   }

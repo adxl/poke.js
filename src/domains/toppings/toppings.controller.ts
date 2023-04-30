@@ -8,6 +8,7 @@ import {
   Param,
   HttpCode,
   UseGuards,
+  ParseUUIDPipe,
 } from "@nestjs/common";
 import { ToppingsService } from "./toppings.service";
 import { RoleAdminGuard } from "../auth/admin.guard";
@@ -31,7 +32,7 @@ export class ToppingsController {
 
   @Get(":id")
   @HttpCode(200)
-  getOne(@Param("id") id: string): Promise<Topping> {
+  getOne(@Param("id", new ParseUUIDPipe()) id: string): Promise<Topping> {
     return this.toppingsService.findOne(id);
   }
 
@@ -45,14 +46,17 @@ export class ToppingsController {
   @Patch(":id")
   @HttpCode(200)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  update(@Param("id") id: string, @Body() topping: UpdateToppingDto): Promise<UpdateResult> {
+  update(
+    @Param("id", new ParseUUIDPipe()) id: string,
+    @Body() topping: UpdateToppingDto
+  ): Promise<UpdateResult> {
     return this.toppingsService.update(id, topping);
   }
 
   @Delete(":id")
   @HttpCode(204)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  delete(@Param("id") id: string): Promise<DeleteResult> {
+  delete(@Param("id", new ParseUUIDPipe()) id: string): Promise<DeleteResult> {
     return this.toppingsService.remove(id);
   }
 }

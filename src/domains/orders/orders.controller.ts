@@ -8,6 +8,7 @@ import {
   Req,
   UseGuards,
   Patch,
+  ParseUUIDPipe,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Request } from "express";
@@ -36,7 +37,7 @@ export class OrdersController {
   @Get(":id")
   @HttpCode(200)
   @UseGuards(JwTAuthGuard)
-  getOne(@Req() request: Request, @Param("id") id: string): Promise<Order> {
+  getOne(@Req() request: Request, @Param("id", new ParseUUIDPipe()) id: string): Promise<Order> {
     if ((request.user as User).isAdmin) {
       return this.ordersService.findOne(id);
     }
@@ -55,7 +56,7 @@ export class OrdersController {
   @UseGuards(JwTAuthGuard)
   update(
     @Req() request: Request,
-    @Param("id") id: string,
+    @Param("id", new ParseUUIDPipe()) id: string,
     @Body() order: UpdateOrderDto
   ): Promise<Order> {
     return this.ordersService.update(id, order, request.user as User);

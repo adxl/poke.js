@@ -8,6 +8,7 @@ import {
   Param,
   HttpCode,
   UseGuards,
+  ParseUUIDPipe,
 } from "@nestjs/common";
 import { ProteinsService } from "./proteins.service";
 import { RoleAdminGuard } from "../auth/admin.guard";
@@ -31,7 +32,7 @@ export class ProteinsController {
 
   @Get(":id")
   @HttpCode(200)
-  getOne(@Param("id") id: string): Promise<Protein> {
+  getOne(@Param("id", new ParseUUIDPipe()) id: string): Promise<Protein> {
     return this.proteinsService.findOne(id);
   }
 
@@ -45,14 +46,17 @@ export class ProteinsController {
   @Patch(":id")
   @HttpCode(200)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  update(@Param("id") id: string, @Body() topping: UpdateProteinDto): Promise<UpdateResult> {
+  update(
+    @Param("id", new ParseUUIDPipe()) id: string,
+    @Body() topping: UpdateProteinDto
+  ): Promise<UpdateResult> {
     return this.proteinsService.update(id, topping);
   }
 
   @Delete(":id")
   @HttpCode(204)
   @UseGuards(JwTAuthGuard, RoleAdminGuard)
-  delete(@Param("id") id: string): Promise<DeleteResult> {
+  delete(@Param("id", new ParseUUIDPipe()) id: string): Promise<DeleteResult> {
     return this.proteinsService.remove(id);
   }
 }
