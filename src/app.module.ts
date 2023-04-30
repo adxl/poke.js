@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TypeOrmConfig } from "./config/typeorm.config";
 import { AuthModule } from "./domains/auth/auth.module";
@@ -12,6 +12,7 @@ import { ProteinsModule } from "./domains/proteins/proteins.module";
 import { APP_GUARD } from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { ThrottleConfig } from "./config/throttle.config";
+import { HelmetMiddleware } from "@nest-middlewares/helmet";
 
 @Module({
   imports: [
@@ -33,4 +34,15 @@ import { ThrottleConfig } from "./config/throttle.config";
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    HelmetMiddleware.configure({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["`self`"],
+        },
+      },
+    });
+    consumer.apply(HelmetMiddleware).forRoutes("*");
+  }
+}
