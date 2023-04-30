@@ -13,10 +13,10 @@ Setup the project
 ./setup.sh
 ```
 
-(Optionnal) reset the fixtures:
+When the containers are running, run the fixtures:
 
 ```bash
-docker exec poke-api npm run seed
+./seed.sh
 ```
 
 ## How to use

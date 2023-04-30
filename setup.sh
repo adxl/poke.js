@@ -9,6 +9,3 @@ docker compose build
 
 # run containers
 docker compose up -d
-
-# run migrations
-docker exec poke-api npm run seed
